@@ -1,12 +1,5 @@
 <template>
-<div>
-  <div class="border rounded p-3 mb-4" v-for="comment in comments">
-    <p class="text-sm text-grey-dark mb-2">
-      {{comment.name}} - {{comment.created_at}}
-    </p>
-      {{comment.body}}
-  </div>
-  <form class="flex flex-col" @submit.prevent="submitComment">
+    <form class="flex flex-col" @submit.prevent="submitComment">
     <h3 class="font-normal text-grey-darkest text-sm mb-3">Nouveau Commentaire :</h3>
       <div class="mb-3">
         <input type="text" class="border rounded p-3 w-full" :class="{'border-red-500' : errors.name}" v-model="form.name" placeholder="Pseudo">
@@ -18,33 +11,25 @@
       </div>
     <button type="submit" class="border rounded py-3">Commenter</button>
   </form>
-</div>
 </template>
 
 <script>
 export default {
-  data(){
+    data(){
     return {
       form: {
         name: '',
         body: '',
         url: window.location.href,
       },
-    comments: [],
     errors: '',
     }
   },
-  mounted(){
-    axios.get('/comments/' + btoa(window.location.href))
-          .then(({data})=> {
-            this.comments = data
-          })
-  },
-  methods:{
+  methods: {
     submitComment(){
       axios.post('/comments', this.form)
       .then(({data}) => {
-        this.comments.push(data)
+        this.$emit('newComment', {data})
         this.form.body = ""
         this.errors = {}
       })
@@ -52,6 +37,6 @@ export default {
         this.errors = error.response.data.errors
       })
     },
-  },
+  }
 }
 </script>
