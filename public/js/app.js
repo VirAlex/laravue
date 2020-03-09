@@ -1991,11 +1991,16 @@ __webpack_require__.r(__webpack_exports__);
       errors: ''
     };
   },
+  computed: {
+    fullForm: function fullForm() {
+      return this.form;
+    }
+  },
   methods: {
     submitComment: function submitComment() {
       var _this = this;
 
-      axios.post('/comments', this.form).then(function (_ref) {
+      axios.post('/comments', this.fullForm).then(function (_ref) {
         var data = _ref.data;
 
         _this.$emit('newComment', {

@@ -33,9 +33,16 @@ export default {
     errors: '',
     }
   },
+
+  computed: {
+    fullForm(){
+      return this.form
+    }
+  },
+
   methods: {
     submitComment(){
-      axios.post('/comments', this.form)
+      axios.post('/comments', this.fullForm)
       .then(({data}) => {
         this.$emit('newComment', {data})
         this.form.body = ""
