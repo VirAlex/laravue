@@ -23,16 +23,22 @@
 
 <script>
 export default {
-  props: ['dataComments'],
   data(){
     return {
       form: {
         name: '',
         body: '',
+        url: window.location.href,
       },
-    comments: this.dataComments,
+    comments: [],
     errors: '',
     }
+  },
+  mounted(){
+    axios.get('/comments/' + btoa(window.location.href))
+          .then(({data})=> {
+            this.comments = data
+          })
   },
   methods:{
     submitComment(){

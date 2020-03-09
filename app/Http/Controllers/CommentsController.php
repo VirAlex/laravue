@@ -7,23 +7,21 @@ use App\Comment;
 
 class CommentsController extends Controller
 {
-  public function index()
+  public function index($url)
   {
-
-    $comments = Comment::all();
-    return view('welcome', [
-      'comments' => $comments,
-    ]);
+    $comments = Comment::where('url', base64_decode($url))->get();
+      return $comments;
   }
     public function store()
       {
         request()-> validate([
           'body' => ['required'],
           'name' => ['required'],
-        ]);
+          'url' => ['required'],
+          ]);
           return Comment::create([
             'name' => request ('name'),
-            'url' => 'url',
+            'url' => request ('url'),
             'body' => request ('body'),
           ]);
 

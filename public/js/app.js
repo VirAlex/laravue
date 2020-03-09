@@ -1932,30 +1932,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['dataComments'],
   data: function data() {
     return {
       form: {
         name: '',
-        body: ''
+        body: '',
+        url: window.location.href
       },
-      comments: this.dataComments,
+      comments: [],
       errors: ''
     };
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/comments/' + btoa(window.location.href)).then(function (_ref) {
+      var data = _ref.data;
+      _this.comments = data;
+    });
+  },
   methods: {
     submitComment: function submitComment() {
-      var _this = this;
+      var _this2 = this;
 
-      axios.post('/comments', this.form).then(function (_ref) {
-        var data = _ref.data;
+      axios.post('/comments', this.form).then(function (_ref2) {
+        var data = _ref2.data;
 
-        _this.comments.push(data);
+        _this2.comments.push(data);
 
-        _this.form.body = "";
-        _this.errors = {};
+        _this2.form.body = "";
+        _this2.errors = {};
       })["catch"](function (error) {
-        _this.errors = error.response.data.errors;
+        _this2.errors = error.response.data.errors;
       });
     }
   }
