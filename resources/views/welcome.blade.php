@@ -12,7 +12,7 @@
     <body class="font-sans text-black antialiased">
       <h1>{{$title}}</h1>
       <div id="app" class="h-screen w-full flex justify-center items-center">
-        <comment class ="w-1/2"/>
+        <comments class ="w-1/2"/>
       </div>
       <script src="/js/app.js"></script>
     </body>
