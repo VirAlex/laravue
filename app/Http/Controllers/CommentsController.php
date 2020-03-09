@@ -7,15 +7,24 @@ use App\Comment;
 
 class CommentsController extends Controller
 {
+  public function index()
+  {
+
+    $comments = Comment::all();
+    return view('welcome', [
+      'comments' => $comments,
+    ]);
+  }
     public function store()
       {
         request()-> validate([
-          'content' => ['required'],
+          'body' => ['required'],
+          'name' => ['required'],
         ]);
-          Comment::create([
-            'name' => 'Alex',
+          return Comment::create([
+            'name' => request ('name'),
             'url' => 'url',
-            'body' => request ('content'),
+            'body' => request ('body'),
           ]);
 
           return "Votre commentaire a bien été ajouté";

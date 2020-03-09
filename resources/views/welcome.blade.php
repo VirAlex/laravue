@@ -9,9 +9,9 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
-    <body>
-      <div id="app">
-        <comment-form />
+    <body class="font-sans text-black antialiased">
+      <div id="app" class="h-screen w-full flex justify-center items-center">
+        <comment-form class ="w-1/2" :data-comments="{{$comments}}"/>
       </div>
       <script src="/js/app.js"></script>
     </body>

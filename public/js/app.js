@@ -1916,16 +1916,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['dataComments'],
   data: function data() {
     return {
-      comment: ''
+      form: {
+        name: '',
+        body: ''
+      },
+      comments: this.dataComments,
+      errors: ''
     };
   },
   methods: {
     submitComment: function submitComment() {
-      axios.post('/comments', {
-        content: this.comment
+      var _this = this;
+
+      axios.post('/comments', this.form).then(function (_ref) {
+        var data = _ref.data;
+
+        _this.comments.push(data);
+
+        _this.form.body = "";
+        _this.errors = {};
+      })["catch"](function (error) {
+        _this.errors = error.response.data.errors;
       });
     }
   }
@@ -37333,44 +37363,114 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "form",
-    {
-      staticClass: "flex flex-col",
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.submitComment($event)
-        }
-      }
-    },
+    "div",
     [
-      _c("textarea", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.comment,
-            expression: "comment"
-          }
-        ],
-        staticClass: "border rounded p-3",
-        domProps: { value: _vm.comment },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.comment = $event.target.value
-          }
-        }
+      _vm._l(_vm.comments, function(comment) {
+        return _c("div", { staticClass: "border rounded p-3 mb-4" }, [
+          _c("p", { staticClass: "text-sm text-grey-dark mb-2" }, [
+            _vm._v(
+              "\n      " +
+                _vm._s(comment.name) +
+                " - " +
+                _vm._s(comment.created_at) +
+                "\n    "
+            )
+          ]),
+          _vm._v("\n      " + _vm._s(comment.body) + "\n  ")
+        ])
       }),
       _vm._v(" "),
       _c(
-        "button",
-        { staticClass: "border rounded py-3", attrs: { type: "submit" } },
-        [_vm._v("Commenter")]
+        "form",
+        {
+          staticClass: "flex flex-col",
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.submitComment($event)
+            }
+          }
+        },
+        [
+          _c(
+            "h3",
+            { staticClass: "font-normal text-grey-darkest text-sm mb-3" },
+            [_vm._v("Nouveau Commentaire :")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "mb-3" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.name,
+                  expression: "form.name"
+                }
+              ],
+              staticClass: "border rounded p-3 w-full",
+              class: { "border-red-500": _vm.errors.name },
+              attrs: { type: "text", placeholder: "Pseudo" },
+              domProps: { value: _vm.form.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "name", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.name
+              ? _c("p", {
+                  staticClass: "text-red-500 text-xs italic px-3 py-1",
+                  domProps: { textContent: _vm._s(_vm.errors.name[0]) }
+                })
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mb-3" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.body,
+                  expression: "form.body"
+                }
+              ],
+              staticClass: "border rounded p-3 w-full",
+              class: { "border-red-500": _vm.errors.body },
+              attrs: { placeholder: "Commentaire" },
+              domProps: { value: _vm.form.body },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "body", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.body
+              ? _c("p", {
+                  staticClass: "text-red-500 text-xs italic px-3 py-1",
+                  domProps: { textContent: _vm._s(_vm.errors.body[0]) }
+                })
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "border rounded py-3", attrs: { type: "submit" } },
+            [_vm._v("Commenter")]
+          )
+        ]
       )
-    ]
+    ],
+    2
   )
 }
 var staticRenderFns = []
