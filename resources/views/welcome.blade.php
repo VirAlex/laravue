@@ -11,7 +11,7 @@
     </head>
     <body>
       <div id="app">
-        <password-input />
+        <comment-form />
       </div>
       <script src="/js/app.js"></script>
     </body>
